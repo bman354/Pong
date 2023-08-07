@@ -1,7 +1,6 @@
-#pragma once
-
 #include <SDL.h>
 #include "Paddle.hpp"
+#include "Ball.hpp"
 
 class Pong {
 public:
@@ -11,12 +10,18 @@ public:
 	void gameLoop();
 	void update(double deltaTime);
 	void draw();
+	bool checkCollision(SDL_Rect a, SDL_Rect b);
+	void checkAllCollisions();
+	void checkScore();
+	void resetGame();
 
 private:
 	SDL_Window*		m_game_window;
-	SDL_Event		m_game_window_event;
-	SDL_Renderer*	m_game_window_renderer;
+	SDL_Event		game_window_event;
+	SDL_Renderer*	game_window_renderer;
 
-	Paddle m_left_paddle;
-	Paddle m_right_paddle;
+	Paddle left_paddle;
+	Paddle right_paddle;
+	Ball ball;
+
 };
