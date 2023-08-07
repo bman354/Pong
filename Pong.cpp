@@ -1,9 +1,9 @@
 #include "Pong.hpp"
 #include <iostream>
 
-Pong::Pong() : left_paddle(Paddle::Type::LEFT, 0, (400 / 2) - 50), right_paddle(Paddle::Type::RIGHT, 400 - 50, (400 / 2) - 50)
+Pong::Pong() : left_paddle(Paddle::Type::LEFT, 0, (400 / 2) - 50), right_paddle(Paddle::Type::RIGHT, 400 - 25, (400 / 2) - 50)
 {
-	SDL_CreateWindowAndRenderer(680, 480, SDL_WINDOW_RESIZABLE, &m_game_window, &game_window_renderer);
+	SDL_CreateWindowAndRenderer(400, 400, SDL_WINDOW_RESIZABLE, &m_game_window, &game_window_renderer);
 
 	SDL_RenderSetLogicalSize(game_window_renderer, 400, 400);
 
@@ -35,7 +35,7 @@ void Pong::gameLoop() {
 		checkScore();
 
 
-		update(1.0 / 60.0);
+		update(getDeltaTime());
 		draw();
 
 
@@ -155,25 +155,33 @@ void Pong::checkAllCollisions(){
 void Pong::checkScore() {
 	if (ball.position.x < 0) {
 		left_paddle.score++;
-		std::cout << left_paddle.score;
+		std::cout << "Left Paddle Score: " << left_paddle.score << std::endl;
 		resetGame();
 	}
 	else if(ball.position.x > 400){
 		right_paddle.score++;
-		std::cout << right_paddle.score;
+		std::cout << "Right Paddle Score: " << right_paddle.score << std::endl;
 		resetGame();
 	}
-
-
-
 }
 
 void Pong::resetGame(){
-	
+	ball.m_x = 200.0;
+	ball.m_y = 200.0;
 
-
+	ball.randomizeVelocity();
 }
 
+double Pong::getDeltaTime() {
+	static Uint64 LAST = SDL_GetPerformanceCounter();
+	Uint64 NOW = SDL_GetPerformanceCounter();
+	Uint64 FREQUENCY = SDL_GetPerformanceFrequency();
 
+	double deltaTime = static_cast<double>(NOW - LAST) / static_cast<double>(FREQUENCY) * 1000.0; // Convert to milliseconds
+	LAST = NOW;
 
-
+	if (deltaTime > 1.0 / 60.0) {
+		return (1.0 / 60.0);
+	}
+	return deltaTime;
+}

@@ -14,14 +14,15 @@ public:
 	void init(SDL_Renderer* renderer, int x, int y);
 	void update(double deltaTime);
 	void draw(SDL_Renderer* renderer);
+	void randomizeVelocity();
 	
 	SDL_Rect position;
 	int velocity_x;
 	int velocity_y;
 
-private:
-	double m_y;
 	double m_x;
+	double m_y;
+private:
 	SDL_Texture* m_image;
 };
 

@@ -14,6 +14,7 @@ public:
 	void checkAllCollisions();
 	void checkScore();
 	void resetGame();
+	double getDeltaTime();
 
 private:
 	SDL_Window*		m_game_window;

@@ -21,6 +21,23 @@ void Ball::init(SDL_Renderer* renderer, int x, int y) {
 
 	SDL_QueryTexture(m_image, nullptr, nullptr, &position.w, &position.h);
 
+	randomizeVelocity();
+};
+
+void Ball::update(double deltaTime) {
+
+	m_x = m_x + (velocity_x * deltaTime);
+	m_y = m_y + (velocity_y * deltaTime);
+
+	position.y = m_y;
+	position.x = m_x;
+};
+
+void Ball::draw(SDL_Renderer* renderer) {
+	SDL_RenderCopy(renderer, m_image, nullptr, &position);
+}
+
+void Ball::randomizeVelocity(){
 	std::random_device dev;
 	std::mt19937 rand_gen(dev());
 	std::uniform_int_distribution<> dist_x(0, 1);
@@ -38,17 +55,4 @@ void Ball::init(SDL_Renderer* renderer, int x, int y) {
 	if (dist_x(rand_gen) == 0) {
 		velocity_y = -velocity_y;
 	}
-};
-
-void Ball::update(double deltaTime) {
-
-	m_x = m_x + (velocity_x * deltaTime);
-	m_y = m_y + (velocity_y * deltaTime);
-
-	position.y = m_y;
-	position.x = m_x;
-};
-
-void Ball::draw(SDL_Renderer* renderer) {
-	SDL_RenderCopy(renderer, m_image, nullptr, &position);
 }
