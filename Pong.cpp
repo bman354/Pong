@@ -154,13 +154,13 @@ void Pong::checkAllCollisions(){
 
 void Pong::checkScore() {
 	if (ball.position.x < 0) {
-		left_paddle.score++;
-		std::cout << "Left Paddle Score: " << left_paddle.score << std::endl;
+		right_paddle.score++;
+		std::cout << "Right Paddle Score: " << right_paddle.score << std::endl;
 		resetGame();
 	}
 	else if(ball.position.x > 400){
-		right_paddle.score++;
-		std::cout << "Right Paddle Score: " << right_paddle.score << std::endl;
+		left_paddle.score++;
+		std::cout << "left Paddle Score: " << left_paddle.score << std::endl;
 		resetGame();
 	}
 }
